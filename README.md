@@ -110,4 +110,4 @@ Home page
 
 ## Developer
 
-Developed and implemented by the development team.
+Designed, developed, and implemented by [Joud Alzahrani].
