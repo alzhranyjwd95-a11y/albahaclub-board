@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>منصة مجلس الإدارة - جمعية أدبي الباحة</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --sidebar-bg: #0d1b2a;
+            --sidebar-hover: #1b263b;
+            --accent-gold: #c59b27;
+            --main-bg: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body {
+            background-color: var(--main-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background-color: var(--sidebar-bg);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100vh;
+            z-index: 1050;
+            transition: transform 0.3s ease, right 0.3s ease;
+        }
+
+        .sidebar-brand {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .sidebar-brand h2 { font-size: 1.15rem; color: #fff; font-weight: bold; }
+        .sidebar-menu { list-style: none; margin-top: 15px; flex-grow: 1; }
+        .sidebar-menu li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: 0.2s;
+        }
+        .sidebar-menu li a:hover, .sidebar-menu li.active a {
+            background-color: var(--sidebar-hover);
+            color: #fff;
+            border-right: 4px solid var(--accent-gold);
+        }
+        .sidebar-menu li.active a { background-color: rgba(197, 155, 39, 0.2); }
+        .sidebar-footer { padding: 15px 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .sidebar-footer a { color: #ef4444; text-decoration: none; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+
+        /* Main Content */
+        .main-wrapper {
+            margin-right: 240px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: margin-right 0.3s ease;
+        }
+
+        /* Topbar */
+        .topbar {
+            background-color: #fff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            position: sticky;
+            top: 0;
+            z-index: 500;
+        }
+        .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .brand-header img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+        .brand-header h1 { font-size: 1.15rem; color: #0d1b2a; margin: 0; }
+        .brand-header p { font-size: 0.8rem; color: var(--accent-gold); font-weight: bold; margin: 0; }
+
+        .menu-toggle-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+            color: #0d1b2a;
+            padding: 0 5px;
+        }
+
+        /* User Profile & Dropdown */
+        .user-profile-container { position: relative; }
+        .user-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f8fafc;
+            padding: 6px 12px;
+            border-radius: 30px;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+        }
+        .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: #0d1b2a; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+        .user-details h4 { font-size: 0.85rem; margin-bottom: 2px; }
+        .user-details span { font-size: 0.7rem; color: var(--accent-gold); font-weight: bold; background: #fffbe8; padding: 1px 6px; border-radius: 10px; }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 50px;
+            background: #fff;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            border-radius: 10px;
+            width: 190px;
+            z-index: 1000;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+        .dropdown-menu.show { display: block; }
+        .dropdown-item {
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: #334155;
+            text-decoration: none;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .dropdown-item.logout { color: #dc2626; border-bottom: none; }
+
+        /* Dashboard Body */
+        .dashboard-body { padding: 25px 30px; display: flex; flex-direction: column; gap: 20px; }
+
+        .grid-row-top { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
+        .welcome-card {
+            background: linear-gradient(135deg, #0d1b2a, #1b263b);
+            color: #fff;
+            padding: 22px;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .welcome-card h3 { color: var(--accent-gold); font-size: 0.95rem; margin-bottom: 6px; }
+        .welcome-card h2 { font-size: 1.3rem; margin-bottom: 8px; }
+        .welcome-card p { font-size: 0.82rem; color: #94a3b8; line-height: 1.5; }
+
+        .quick-actions-card { background: var(--card-bg); padding: 20px; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+        .quick-actions-card h3 { font-size: 0.95rem; margin-bottom: 12px; color: #334155; }
+        .quick-actions-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .quick-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 8px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #1e293b;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .quick-btn .icon { font-size: 1.4rem; }
+
+        .grid-row-middle { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+        .board-members-card, .next-meeting-card { background: var(--card-bg); padding: 20px; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+        .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .card-header-flex h3 { font-size: 0.95rem; color: #334155; }
+        .card-header-flex a { font-size: 0.8rem; color: var(--accent-gold); text-decoration: none; font-weight: bold; }
+
+        .members-flex { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; }
+        .member-badge {
+            min-width: 110px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 8px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .member-badge:hover, .member-badge.active-member {
+            transform: translateY(-3px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            background: #fff;
+        }
+
+        /* تنسيق صور الأعضاء */
+        .member-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            overflow: hidden;
+            border: 2px solid #e2e8f0;
+        }
+        .member-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .member-badge h4 { font-size: 0.8rem; color: #0f172a; margin-top: 4px; }
+        .member-badge span { font-size: 0.7rem; color: #64748b; }
+        .member-badge .tag { background: #0d1b2a; color: #fff; font-size: 0.6rem; padding: 2px 6px; border-radius: 8px; margin-top: 2px; }
+
+        .member-inline-details {
+            display: none;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-right: 4px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-top: 12px;
+        }
+        .member-inline-details.show { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .inline-details-content { display: flex; align-items: center; gap: 12px; }
+        .inline-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            border: 2px solid var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .inline-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .inline-text h4 { margin: 0; font-size: 0.95rem; color: #0d1b2a; }
+        .inline-text p.role { margin: 0; font-size: 0.78rem; color: var(--accent-gold); font-weight: bold; }
+        .inline-text p.desc { margin: 3px 0 0 0; font-size: 0.8rem; color: #475569; }
+        .btn-inline-close { background: #f1f5f9; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; font-size: 0.85rem; flex-shrink: 0; }
+
+        .next-meeting-card { display: flex; flex-direction: column; justify-content: space-between; }
+        .meeting-box { text-align: center; background: #f8fafc; border: 1px dashed #cbd5e1; padding: 12px; border-radius: 10px; margin: 8px 0; cursor: pointer; }
+        .meeting-box h4 { color: #0f172a; margin-bottom: 4px; font-size: 0.9rem; }
+        .meeting-box p { font-size: 0.78rem; color: #64748b; margin: 2px 0; }
+
+        .grid-row-bottom { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        .activity-card { background: var(--card-bg); padding: 18px; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+        .activity-list { list-style: none; margin-top: 8px; display: flex; flex-direction: column; gap: 8px; }
+        .activity-item { display: flex; justify-content: space-between; align-items: center; padding: 9px; background: #f8fafc; border-radius: 8px; font-size: 0.82rem; cursor: pointer; border: 1px solid #f1f5f9; }
+        .activity-item span.title { font-weight: 500; color: #1e293b; max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .activity-item span.meta { color: #94a3b8; font-size: 0.72rem; }
+
+        /* Modal */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.55); align-items: center; justify-content: center; }
+        .modal.show { display: flex; }
+        .modal-content { background: #fff; padding: 22px; border-radius: 14px; width: 340px; max-width: 90%; display: flex; flex-direction: column; gap: 12px; }
+        .modal-content input { padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem; outline: none; }
+        .modal-buttons { display: flex; gap: 8px; justify-content: flex-end; }
+        .btn-modal { padding: 8px 14px; border-radius: 6px; border: none; cursor: pointer; font-weight: 500; }
+        .btn-modal.save { background: #0d1b2a; color: #fff; }
+        .btn-modal.close { background: #e2e8f0; color: #334155; }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+        .sidebar-overlay.active { display: block; }
+
+        /* Responsive Mobile */
+        @media screen and (max-width: 900px) {
+            .sidebar {
+                right: -260px !important;
+                transform: translateX(260px);
+            }
+            .sidebar.open {
+                right: 0 !important;
+                transform: translateX(0) !important;
+            }
+            .main-wrapper {
+                margin-right: 0 !important;
+                width: 100% !important;
+            }
+            .menu-toggle-btn {
+                display: block !important;
+            }
+            .topbar {
+                padding: 10px 15px;
+            }
+            .dashboard-body {
+                padding: 15px;
+                gap: 15px;
+            }
+            .grid-row-top,
+            .grid-row-middle,
+            .grid-row-bottom {
+                grid-template-columns: 1fr !important;
+            }
+            .quick-actions-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<!-- القائمة الجانبية -->
+<div class="sidebar" id="mainSidebar">
+    <div class="sidebar-brand">
+        <h2>جمعية أدبي الباحة</h2>
+    </div>
+    <ul class="sidebar-menu">
+        <li class="active"><a href="dashboard.html">🏠 الرئيسية</a></li>
+        <li><a href="meetings.html">📅 الاجتماعات</a></li>
+        <li><a href="minutes.html">📄 المحاضر</a></li>
+        <li><a href="tasks.html">☑️ المهام</a></li>
+        <li><a href="votes.html">📊 التصويتات</a></li>
+        <li><a href="decisions.html">⚖️ القرارات</a></li>
+        <li><a href="files.html">📁 الملفات والمستندات</a></li>
+        <li><a href="reports.html">📈 التقارير</a></li>
+    </ul>
+    <div class="sidebar-footer">
+        <a onclick="logout()"><span style="transform: rotate(180deg); display:inline-block;">🚪</span> تسجيل الخروج</a>
+    </div>
+</div>
+
+<!-- المحتوى الرئيسي -->
+<div class="main-wrapper">
+
+    <!-- الهيدر العلوي -->
+    <div class="topbar">
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <button class="menu-toggle-btn" onclick="toggleSidebar()" aria-label="القائمة">☰</button>
+            <div class="brand-header">
+                <img src="images/logo.jpg" onerror="this.src='https://via.placeholder.com/44'" alt="الشعار">
+                <div>
+                    <h1>جمعية أدبي الباحة</h1>
+                    <p>منصة مجلس الإدارة</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- بطاقة المستخدم -->
+        <div class="user-profile-container">
+            <div class="user-pill" onclick="toggleDropdown()">
+                <div class="user-avatar">👤</div>
+                <div class="user-details">
+                    <h4 id="topUserName">جاري التحميل...</h4>
+                    <span id="topUserRole">عضو</span>
+                </div>
+                <span style="font-size: 0.75rem; color: #94a3b8;">▼</span>
+            </div>
+
+            <div class="dropdown-menu" id="userDropdown">
+                <div class="dropdown-item" onclick="openPasswordModal()">🔒 تغيير كلمة المرور</div>
+                <div class="dropdown-item logout" onclick="logout()">🚪 تسجيل الخروج</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- متن لوحة التحكم -->
+    <div class="dashboard-body">
+
+        <!-- الصف الأول: الترحيب والإجراءات السريعة -->
+        <div class="grid-row-top" id="topRowGrid">
+            <div class="welcome-card" id="welcomeCard">
+                <h3>مرحباً بك في</h3>
+                <h2>منصة مجلس الإدارة</h2>
+                <p>نسعى معاً لدعم رسالة جمعية أدبي الباحة وتحقيق أهدافه الثقافية والأدبية بكفاءة وشفافية.</p>
+            </div>
+
+            <div class="quick-actions-card" id="quickActionsCard" style="display: none;">
+                <h3>⚡ إجراءات سريعة</h3>
+                <div class="quick-actions-grid">
+                    <a href="add-file.html" class="quick-btn">
+                        <span class="icon">📁</span>
+                        <span>رفع ملف</span>
+                    </a>
+                    <a href="add-vote.html" class="quick-btn">
+                        <span class="icon">📊</span>
+                        <span>تصويت جديد</span>
+                    </a>
+                    <a href="add-minute.html" class="quick-btn">
+                        <span class="icon">📄</span>
+                        <span>محضر جديد</span>
+                    </a>
+                    <a href="add-meeting.html" class="quick-btn">
+                        <span class="icon">👥</span>
+                        <span>اجتماع جديد</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- الصف الثاني: أعضاء المجلس والاجتماع القادم -->
+        <div class="grid-row-middle">
+            <div class="board-members-card">
+                <div class="card-header-flex">
+                    <h3>👥 أعضاء مجلس الإدارة</h3>
+                </div>
+                <div class="members-flex" id="membersList">
+
+                    <!-- أ. حسن الزهراني -->
+                    <div class="member-badge" onclick="showInlineMember(this, 'أ. حسن محمد الزهراني', 'رئيس مجلس الإدارة', 'images/hasan.jpg', 'رئيس المجلس والمسؤول العام عن متابعة القرارات والأنشطة الأدبية.')">
+                        <div class="member-avatar">
+                            <img src="images/hasan.jpg" onerror="this.src='https://via.placeholder.com/48'" alt="حسن الزهراني">
+                        </div>
+                        <h4>حسن الزهراني</h4>
+                        <span>رئيس المجلس</span>
+                        <span class="tag">الرئيس</span>
+                    </div>
+
+                    <!-- أ. مسفر العدواني -->
+                    <div class="member-badge" onclick="showInlineMember(this, 'أ. مسفر العدواني', 'نائب رئيس مجلس الإدارة', 'images/mesfer.jpg', 'نائب رئيس المجلس ومسؤول اللجان الثقافية والتنظيمية.')">
+                        <div class="member-avatar">
+                            <img src="images/mesfer.jpg" onerror="this.src='https://via.placeholder.com/48'" alt="مسفر العدواني">
+                        </div>
+                        <h4>مسفر العدواني</h4>
+                        <span>نائب الرئيس</span>
+                        <span class="tag">نائب</span>
+                    </div>
+
+                    <!-- أ. توفيق محمد غنام -->
+                    <div class="member-badge" onclick="showInlineMember(this, 'أ. توفيق محمد غنام', 'عضو مجلس الإدارة', 'images/tawfiq.jpg', 'عضو مجلس الإدارة ومسؤول المتابعة والتنسيق.')">
+                        <div class="member-avatar">
+                            <img src="images/tawfiq.jpg" onerror="this.src='https://via.placeholder.com/48'" alt="توفيق محمد">
+                        </div>
+                        <h4>توفيق محمد</h4>
+                        <span>عضو المجلس</span>
+                        <span class="tag">عضو</span>
+                    </div>
+
+                    <!-- أ. غالية القلطي -->
+                    <div class="member-badge" onclick="showInlineMember(this, 'أ. غالية القلطي', 'عضو مجلس الإدارة', '', 'عضو مجلس الإدارة والمسؤول الإداري للمنصة الرقمية.')">
+                        <div class="member-avatar">👤</div>
+                        <h4>غالية القلطي</h4>
+                        <span>عضو المجلس</span>
+                        <span class="tag">أدمن</span>
+                    </div>
+
+                    <!-- أ. أريج الزهراني -->
+                    <div class="member-badge" onclick="showInlineMember(this, 'أ. أريج حنش الزهراني', 'عضو مجلس الإدارة', '', 'عضو مجلس الإدارة ومسؤول المبادرات والفعاليات الثقافية.')">
+                        <div class="member-avatar">👤</div>
+                        <h4>أريج الزهراني</h4>
+                        <span>عضو المجلس</span>
+                        <span class="tag">عضو</span>
+                    </div>
+                </div>
+
+                <!-- بطاقة تفاصيل العضو البيضاء التفاعلية -->
+                <div class="member-inline-details" id="memberInlineCard">
+                    <div class="inline-details-content">
+                        <div class="inline-avatar" id="inAvatar">👤</div>
+                        <div class="inline-text">
+                            <h4 id="inName">اسم العضو</h4>
+                            <p class="role" id="inRole">المنصب</p>
+                            <p class="desc" id="inDesc">تفاصيل العضو...</p>
+                        </div>
+                    </div>
+                    <button class="btn-inline-close" onclick="closeInlineMember()" title="إغلاق">✕</button>
+                </div>
+            </div>
+
+            <div class="next-meeting-card">
+                <div class="card-header-flex">
+                    <h3>📅 الاجتماع القادم</h3>
+                    <a href="meetings.html">عرض الكل</a>
+                </div>
+                <div class="meeting-box" id="nextMeetingBox" onclick="location.href='meetings.html'">
+                    <h4 id="nextMeetingTitle">جاري التحميل...</h4>
+                    <p id="nextMeetingDate">📅 --</p>
+                    <p id="nextMeetingTime">⏰ --</p>
+                </div>
+                <a href="meetings.html" style="background:#0d1b2a; text-decoration:none; text-align:center; padding:8px; border-radius:6px; color:#fff; font-size:0.82rem; display:block;">عرض التفاصيل</a>
+            </div>
+        </div>
+
+        <!-- الصف الثالث: النشاطات الحديثة -->
+        <div class="grid-row-bottom">
+            <div class="activity-card">
+                <div class="card-header-flex">
+                    <h3>☑️ أحدث المهام</h3>
+                    <a href="tasks.html">الكل</a>
+                </div>
+                <ul class="activity-list" id="latestTasks">
+                    <li class="activity-item">جاري التحميل...</li>
+                </ul>
+            </div>
+
+            <div class="activity-card">
+                <div class="card-header-flex">
+                    <h3>⚖️ آخر القرارات</h3>
+                    <a href="decisions.html">الكل</a>
+                </div>
+                <ul class="activity-list" id="latestDecisions">
+                    <li class="activity-item">جاري التحميل...</li>
+                </ul>
+            </div>
+
+            <div class="activity-card">
+                <div class="card-header-flex">
+                    <h3>📁 أحدث المستندات</h3>
+                    <a href="files.html">الكل</a>
+                </div>
+                <ul class="activity-list" id="latestFiles">
+                    <li class="activity-item">جاري التحميل...</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- نافذة تغيير كلمة المرور -->
+<div class="modal" id="passwordModal">
+    <div class="modal-content">
+        <h3>🔒 تغيير كلمة المرور</h3>
+        <input type="password" id="newPassword" placeholder="كلمة المرور الجديدة (6 خانات فأكثر)">
+        <div class="modal-buttons">
+            <button class="btn-modal close" onclick="closePasswordModal()">إلغاء</button>
+            <button class="btn-modal save" onclick="changePassword()">تحديث</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById("mainSidebar");
+        const overlay = document.getElementById("sidebarOverlay");
+        sidebar.classList.toggle("open");
+        overlay.classList.toggle("active");
+    }
+
+    function showInlineMember(element, name, role, photoSrc, desc) {
+        document.querySelectorAll('.member-badge').forEach(b => b.classList.remove('active-member'));
+        element.classList.add('active-member');
+
+        document.getElementById("inName").innerText = name;
+        document.getElementById("inRole").innerText = role;
+        document.getElementById("inDesc").innerText = desc;
+
+        const avatarContainer = document.getElementById("inAvatar");
+        if (photoSrc) {
+            avatarContainer.innerHTML = `<img src="${photoSrc}" alt="${name}">`;
+        } else {
+            avatarContainer.innerHTML = `👤`;
+        }
+
+        document.getElementById("memberInlineCard").classList.add("show");
+    }
+
+    function closeInlineMember() {
+        document.querySelectorAll('.member-badge').forEach(b => b.classList.remove('active-member'));
+        document.getElementById("memberInlineCard").classList.remove("show");
+    }
+</script>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

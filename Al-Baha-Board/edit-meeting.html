@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>تعديل الاجتماع</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="sidebar">
+
+    <div class="sidebar-brand">
+
+        <h2>
+            جمعية أدبي الباحة
+        </h2>
+
+    </div>
+
+
+    <ul class="sidebar-menu">
+
+        <li>
+            <a href="dashboard.html">🏠 الرئيسية</a>
+        </li>
+
+        <li class="active">
+            <a href="meetings.html">📅 الاجتماعات</a>
+        </li>
+
+        <li>
+            <a href="minutes.html">📄 المحاضر</a>
+        </li>
+
+        <li>
+            <a href="tasks.html">☑️ المهام</a>
+        </li>
+
+        <li>
+            <a href="votes.html">📊 التصويتات</a>
+        </li>
+
+        <li>
+            <a href="decisions.html">⚖️ القرارات</a>
+        </li>
+
+        <li>
+            <a href="files.html">📁 الملفات والمستندات</a>
+        </li>
+
+        <li>
+            <a href="reports.html">📈 التقارير</a>
+        </li>
+
+    </ul>
+
+
+</div>
+
+
+
+
+
+<div class="main-wrapper">
+
+
+
+    <div class="topbar">
+
+
+        <div class="brand-header">
+
+
+            <div>
+
+                <h1>
+                    جمعية أدبي الباحة
+                </h1>
+
+
+                <p>
+                    منصة مجلس الإدارة
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+    <div class="dashboard-body">
+
+
+
+        <div class="form-page">
+
+
+            <div class="form-card">
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        عنوان الاجتماع
+                    </label>
+
+
+                    <input
+                            id="title"
+                            placeholder="عنوان الاجتماع">
+
+
+                </div>
+
+
+
+
+
+                <div class="form-group">
+
+
+                    <label>
+                        تاريخ الاجتماع
+                    </label>
+
+
+                    <input
+                            type="date"
+                            id="date">
+
+
+                </div>
+
+
+
+
+
+
+                <div class="form-group">
+
+
+                    <label>
+                        حالة الاجتماع
+                    </label>
+
+
+                    <select id="status">
+
+
+                        <option>
+                            قادم
+                        </option>
+
+
+                        <option>
+                            مكتمل
+                        </option>
+
+
+                        <option>
+                            ملغي
+                        </option>
+
+
+                    </select>
+
+
+                </div>
+
+
+
+
+
+
+                <div class="form-group">
+
+
+                    <label>
+                        رابط الاجتماع أون لاين
+                    </label>
+
+
+                    <input
+                            id="link"
+                            placeholder="رابط Google Meet أو Teams">
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="form-buttons">
+
+
+                    <button
+                            class="primary-btn"
+                            onclick="updateMeeting()">
+
+
+                        💾 حفظ التعديل
+
+
+                    </button>
+
+
+
+
+                    <button
+                            class="cancel-btn"
+                            onclick="goBackMeetings()">
+
+
+                        ↩ تراجع
+
+
+                    </button>
+
+
+
+                </div>
+
+
+
+                <p id="message"></p>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+</div>
+
+
+
+<script type="module" src="app.js"></script>
+
+
+</body>
+
+</html>

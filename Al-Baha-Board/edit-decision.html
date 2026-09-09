@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        تعديل القرار
+    </title>
+
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+
+<body>
+
+
+
+<div class="sidebar">
+
+
+    <div class="sidebar-brand">
+
+        <h2>
+            جمعية أدبي الباحة
+        </h2>
+
+    </div>
+
+
+
+
+    <ul class="sidebar-menu">
+
+
+        <li>
+
+            <a href="dashboard.html">
+                🏠 الرئيسية
+            </a>
+
+        </li>
+
+
+
+        <li>
+
+            <a href="meetings.html">
+                📅 الاجتماعات
+            </a>
+
+        </li>
+
+
+
+
+        <li>
+
+            <a href="minutes.html">
+                📄 المحاضر
+            </a>
+
+        </li>
+
+
+
+
+        <li>
+
+            <a href="tasks.html">
+                ☑️ المهام
+            </a>
+
+        </li>
+
+
+
+
+        <li>
+
+            <a href="votes.html">
+                📊 التصويتات
+            </a>
+
+        </li>
+
+
+
+
+        <li class="active">
+
+            <a href="decisions.html">
+                ⚖️ القرارات
+            </a>
+
+        </li>
+
+
+
+
+        <li>
+
+            <a href="files.html">
+                📁 الملفات والمستندات
+            </a>
+
+        </li>
+
+
+
+
+        <li>
+
+            <a href="reports.html">
+                📈 التقارير
+            </a>
+
+        </li>
+
+
+
+    </ul>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="main-wrapper">
+
+
+
+    <div class="topbar">
+
+
+        <div class="brand-header">
+
+
+            <div>
+
+                <h1>
+                    جمعية أدبي الباحة
+                </h1>
+
+
+                <p>
+                    منصة مجلس الإدارة
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+    <div class="dashboard-body">
+
+
+
+
+
+        <div class="form-page">
+
+
+
+
+
+            <div class="form-card">
+
+
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        عنوان القرار
+                    </label>
+
+
+                    <input id="title">
+
+
+                </div>
+
+
+
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        تاريخ القرار
+                    </label>
+
+
+                    <input
+                            type="date"
+                            id="date">
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        حالة القرار
+                    </label>
+
+
+
+                    <select id="status">
+
+
+                        <option>
+                            معتمد
+                        </option>
+
+
+                        <option>
+                            قيد المراجعة
+                        </option>
+
+
+                        <option>
+                            مرفوض
+                        </option>
+
+
+                    </select>
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        تفاصيل القرار
+                    </label>
+
+
+                    <textarea id="description"></textarea>
+
+
+                </div>
+
+
+
+
+
+
+
+
+                <div class="form-buttons">
+
+
+                    <button
+                            class="primary-btn"
+                            onclick="updateDecision()">
+
+
+
+                         حفظ التعديل
+
+
+
+                    </button>
+
+
+
+
+
+                    <button
+                            class="cancel-btn"
+                            onclick="goBackDecisions()">
+
+
+
+                        ↩  تراجع
+
+
+
+                    </button>
+
+
+
+
+                </div>
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+        </div>
+
+
+
+
+
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<script type="module" src="decisions.js"></script>
+
+
+</body>
+
+</html>

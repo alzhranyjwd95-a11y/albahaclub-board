@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>إضافة تقرير جديد - جمعية أدبي الباحة</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+<div class="sidebar">
+
+
+    <div class="sidebar-brand">
+
+        <h2>
+            جمعية أدبي الباحة
+        </h2>
+
+    </div>
+
+
+
+
+    <ul class="sidebar-menu">
+
+
+        <li>
+            <a href="dashboard.html">
+                🏠 الرئيسية
+            </a>
+        </li>
+
+
+        <li>
+            <a href="meetings.html">
+                📅 الاجتماعات
+            </a>
+        </li>
+
+
+        <li>
+            <a href="minutes.html">
+                📄 المحاضر
+            </a>
+        </li>
+
+
+        <li>
+            <a href="tasks.html">
+                ☑️  المهام
+            </a>
+        </li>
+
+
+        <li>
+            <a href="votes.html">
+                📊 التصويتات
+            </a>
+        </li>
+
+
+        <li>
+            <a href="decisions.html">
+                ️ ⚖️ القرارات
+            </a>
+        </li>
+
+
+        <li>
+            <a href="files.html">
+                📁 الملفات والمستندات
+            </a>
+        </li>
+
+
+        <li class="active">
+
+            <a href="reports.html">
+                📈 التقارير
+            </a>
+
+        </li>
+
+
+    </ul>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="main-wrapper">
+
+
+
+    <div class="topbar">
+
+
+        <div class="brand-header">
+
+            <img src="images/logo.jpg">
+            <div>
+
+                <h1>
+                    جمعية أدبي الباحة
+                </h1>
+
+
+                <p>
+                    منصة مجلس الإدارة
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+    <div class="dashboard-body">
+
+
+
+        <div class="form-page">
+
+
+
+            <div class="form-card">
+
+
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        عنوان أو نوع التقرير
+                    </label>
+
+
+                    <input
+                            id="title"
+                            placeholder="مثال: التقرير المالي السنوي">
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        تاريخ التقرير
+                    </label>
+
+
+                    <input
+                            type="date"
+                            id="reportDate">
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        ملخص / تفاصيل التقرير
+                    </label>
+
+
+                    <textarea
+                            id="description"
+                            rows="3"
+                            placeholder="اكتب ملخص التقرير">
+</textarea>
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        اختر ملف التقرير
+                    </label>
+
+
+                    <input
+                            type="file"
+                            id="fileInput">
+
+
+                    <small>
+                        PDF - Word - Excel - صور
+                    </small>
+
+
+                </div>
+
+
+
+
+
+
+                <p id="uploadStatus"
+                   style="display:none">
+
+                    جاري معالجة وحفظ التقرير...
+
+                </p>
+
+
+
+
+
+
+
+                <div class="form-buttons">
+
+
+                    <button
+                            class="primary-btn"
+                            id="saveBtn"
+                            onclick="saveReport()">
+
+
+
+                         حفظ ونشر التقرير
+
+
+
+                    </button>
+
+
+
+
+
+                    <button
+                            class="cancel-btn"
+                            onclick="history.back()">
+
+
+
+                        ↩ تراجع
+
+
+
+                    </button>
+
+
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+</div>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDRe0sxYnR7QVzhXkbR3H0ZhLcfxla7LgA",
+        authDomain: "al-baha-literary-club-board.firebaseapp.com",
+        projectId: "al-baha-literary-club-board",
+        storageBucket: "al-baha-literary-club-board.firebasestorage.app",
+        messagingSenderId: "451049449840",
+        appId: "1:451049449840:web:9c3b9aca29d0c97b8287b5"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    let currentUser = null;
+    onAuthStateChanged(auth, (user) => {
+        currentUser = user;
+    });
+
+    window.saveReport = async function() {
+        const title = document.getElementById("title").value.trim();
+        const reportDate = document.getElementById("reportDate").value;
+        const description = document.getElementById("description").value.trim();
+        const fileInput = document.getElementById("fileInput");
+        const file = fileInput.files[0];
+        const statusText = document.getElementById("uploadStatus");
+        const saveBtn = document.getElementById("saveBtn");
+
+        if (!title || !reportDate || !file) {
+            alert("يرجى تعبئة عنوان التقرير، اختيار التاريخ، واختيار الملف");
+            return;
+        }
+
+        if (file.size > 1024 * 1024) {
+            alert("حجم الملف يتجاوز 1 ميجابايت، يرجى اختيار ملف بحجم أصغر");
+            return;
+        }
+
+        saveBtn.disabled = true;
+        statusText.style.display = "block";
+
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            try {
+                const base64Data = e.target.result;
+
+                await addDoc(collection(db, "reports"), {
+                    title: title,
+                    reportDate: reportDate,
+                    description: description,
+                    fileName: file.name,
+                    fileType: file.type || "application/octet-stream",
+                    fileData: base64Data,
+                    uploadedBy: currentUser ? currentUser.email : "الإدارة",
+                    createdAt: new Date().toLocaleDateString('ar-SA')
+                });
+
+                alert("تم إضافة التقرير بنجاح!");
+                location.href = "reports.html";
+            } catch (err) {
+                console.error("خطأ:", err);
+                alert("حدث خطأ أثناء حفظ التقرير");
+                saveBtn.disabled = false;
+                statusText.style.display = "none";
+            }
+        };
+
+        reader.readAsDataURL(file);
+    };
+</script>
+</body>
+</html>

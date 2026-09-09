@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>إضافة تصويت جديد</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+<div class="sidebar">
+
+
+    <div class="sidebar-brand">
+
+        <h2>
+            جمعية أدبي الباحة
+        </h2>
+
+    </div>
+
+
+
+    <ul class="sidebar-menu">
+
+
+        <li>
+            <a href="dashboard.html">
+                🏠 الرئيسية
+            </a>
+        </li>
+
+
+        <li>
+            <a href="meetings.html">
+                📅 الاجتماعات
+            </a>
+        </li>
+
+
+        <li>
+            <a href="minutes.html">
+                📄 المحاضر
+            </a>
+        </li>
+
+
+        <li>
+            <a href="tasks.html">
+                ☑️ المهام
+            </a>
+        </li>
+
+
+        <li class="active">
+
+            <a href="votes.html">
+                📊 التصويتات
+            </a>
+
+        </li>
+
+
+        <li>
+            <a href="decisions.html">
+                ⚖️ القرارات
+            </a>
+        </li>
+
+
+        <li>
+            <a href="files.html">
+                📁 الملفات والمستندات
+            </a>
+        </li>
+
+
+        <li>
+            <a href="reports.html">
+                📈 التقارير
+            </a>
+        </li>
+
+
+    </ul>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="main-wrapper">
+
+
+
+    <div class="topbar">
+
+
+        <div class="brand-header">
+            <img src="images/logo.jpg">
+
+            <div>
+
+                <h1>
+                    جمعية أدبي الباحة
+                </h1>
+
+
+                <p>
+                    منصة مجلس الإدارة
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+    <div class="dashboard-body">
+
+
+
+
+
+        <div class="form-page">
+
+
+
+
+            <div class="form-card">
+
+
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        نص السؤال / الموضوع
+                    </label>
+
+
+                    <input
+                            id="question"
+                            placeholder="مثال: موعد الاجتماع القادم">
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        الخيارات
+                        (كل خيار في سطر جديد)
+                    </label>
+
+
+                    <textarea
+                            id="optionsText"
+                            rows="5"
+                            placeholder="مناسب&#10;غير مناسب&#10;الخميس أفضل">
+</textarea>
+
+
+                </div>
+
+
+
+
+
+
+
+
+                <div class="form-buttons">
+
+
+                    <button
+                            class="primary-btn"
+                            onclick="saveVote()">
+
+
+
+                        نشر التصويت
+
+
+
+                    </button>
+
+
+
+
+
+                    <button
+                            class="cancel-btn"
+                            onclick="history.back()">
+
+
+
+                        ↩ تراجع
+
+
+
+                    </button>
+
+
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+        </div>
+
+
+
+
+
+    </div>
+
+
+
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDRe0sxYnR7QVzhXkbR3H0ZhLcfxla7LgA",
+        authDomain: "al-baha-literary-club-board.firebaseapp.com",
+        projectId: "al-baha-literary-club-board",
+        storageBucket: "al-baha-literary-club-board.firebasestorage.app",
+        messagingSenderId: "451049449840",
+        appId: "1:451049449840:web:9c3b9aca29d0c97b8287b5"
+    };
+    const db = getFirestore(initializeApp(firebaseConfig));
+
+    window.saveVote = async function() {
+        const question = document.getElementById("question").value.trim();
+        const rawOptions = document.getElementById("optionsText").value.trim().split("\n");
+        const options = rawOptions.filter(o => o.trim() !== "").map(o => ({ text: o.trim(), votes: [] }));
+
+        if (!question || options.length < 2) {
+            alert("يرجى كتابة السؤال وإضافة خيارين على الأقل");
+            return;
+        }
+
+        await addDoc(collection(db, "votes"), {
+            question: question,
+            options: options,
+            date: new Date().toLocaleDateString('ar-SA')
+        });
+
+        alert("تم إضافة التصويت بنجاح");
+        location.href = "votes.html";
+    };
+</script>
+</body>
+</html>

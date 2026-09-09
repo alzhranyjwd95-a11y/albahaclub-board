@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        التصويتات - جمعية أدبي الباحة
+    </title>
+
+
+    <link rel="stylesheet" href="style.css">
+
+
+    <style>
+
+        .poll-card {
+
+            background:white;
+
+            padding:25px;
+
+            border-radius:16px;
+
+            margin-bottom:20px;
+
+            box-shadow:0 3px 12px rgba(0,0,0,.05);
+
+        }
+
+
+
+        .poll-option {
+
+            display:flex;
+
+            align-items:center;
+
+            justify-content:space-between;
+
+            padding:12px 15px;
+
+            margin:10px 0;
+
+            background:#f4f6f9;
+
+            border:1px solid #e5e7eb;
+
+            border-radius:10px;
+
+        }
+
+
+
+        .vote-count {
+
+            background:#0d1b2a;
+
+            color:white;
+
+            padding:4px 10px;
+
+            border-radius:15px;
+
+            font-size:13px;
+
+        }
+
+
+        .admin-controls {
+
+            margin-top:15px;
+
+            border-top:1px solid #eee;
+
+            padding-top:10px;
+
+        }
+
+
+    </style>
+
+
+</head>
+
+
+
+<body>
+
+
+
+<div class="sidebar">
+
+
+    <div class="sidebar-brand">
+
+        <h2>
+            جمعية أدبي الباحة
+        </h2>
+
+    </div>
+
+
+
+
+    <ul class="sidebar-menu">
+
+
+        <li>
+
+            <a href="dashboard.html">
+                🏠 الرئيسية
+            </a>
+
+        </li>
+
+
+
+        <li>
+
+            <a href="meetings.html">
+                📅 الاجتماعات
+            </a>
+
+        </li>
+
+
+
+
+        <li>
+
+            <a href="minutes.html">
+                📄 المحاضر
+            </a>
+
+        </li>
+
+
+
+
+        <li>
+
+            <a href="tasks.html">
+                ☑️ المهام
+            </a>
+
+        </li>
+
+
+
+
+        <li class="active">
+
+            <a href="votes.html">
+                📊 التصويتات
+            </a>
+
+        </li>
+
+
+
+
+        <li>
+
+            <a href="decisions.html">
+                ⚖️ القرارات
+            </a>
+
+        </li>
+
+
+
+
+        <li>
+
+            <a href="files.html">
+                📁 الملفات والمستندات
+            </a>
+
+        </li>
+
+
+
+
+        <li>
+
+            <a href="reports.html">
+                📈 التقارير
+            </a>
+
+        </li>
+
+
+
+    </ul>
+
+    <div class="sidebar-footer">
+
+        <a>
+            🚪 تسجيل الخروج
+        </a>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+<div class="main-wrapper">
+
+
+
+    <div class="topbar">
+
+
+        <div class="brand-header">
+            <img src="images/logo.jpg">
+
+            <div>
+
+                <h1>
+                    جمعية أدبي الباحة
+                </h1>
+
+
+                <p>
+                    منصة مجلس الإدارة
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+    <div class="dashboard-body">
+
+
+
+
+
+        <div class="card-header-flex">
+
+
+
+            <h3>
+
+                📊 استطلاعات الرأي والتصويت
+
+            </h3>
+
+
+
+
+
+            <a id="addVoteBtn"
+               href="add-vote.html"
+               class="add-btn"
+               style="display:none;">
+
+
+                ➕ إضافة تصويت جديد
+
+
+            </a>
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+        <div id="votesList">
+
+
+            <div class="meeting-box">
+
+                جاري تحميل التصويتات...
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<script type="module" src="votes.js"></script>
+
+
+
+</body>
+
+</html>

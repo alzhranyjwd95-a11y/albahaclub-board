@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        الملفات والمستندات - جمعية أدبي الباحة
+    </title>
+
+
+    <link rel="stylesheet" href="style.css">
+
+
+    <style>
+
+        .file-card {
+
+            background:white;
+
+            padding:20px;
+
+            border-radius:15px;
+
+            margin-bottom:15px;
+
+            box-shadow:0 3px 12px rgba(0,0,0,.05);
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+        }
+
+
+
+        .file-info {
+
+            display:flex;
+
+            align-items:center;
+
+            gap:15px;
+
+        }
+
+
+
+        .file-icon {
+
+            font-size:35px;
+
+        }
+
+
+
+        .file-details h3 {
+
+            margin:0;
+
+            color:#0d1b2a;
+
+        }
+
+
+
+        .file-details p {
+
+            color:#64748b;
+
+        }
+
+
+
+        .download-btn {
+
+            background:#0d1b2a;
+
+            color:white;
+
+            padding:10px 18px;
+
+            border-radius:10px;
+
+            text-decoration:none;
+
+        }
+
+
+
+        .download-btn:hover {
+
+            background:#1b263b;
+
+        }
+
+
+    </style>
+
+
+</head>
+
+
+
+<body>
+
+
+
+
+<div class="sidebar">
+
+
+    <div class="sidebar-brand">
+
+        <h2>
+            جمعية أدبي الباحة
+        </h2>
+
+    </div>
+
+
+
+
+    <ul class="sidebar-menu">
+
+
+        <li>
+
+            <a href="dashboard.html">
+                🏠 الرئيسية
+            </a>
+
+        </li>
+
+
+
+        <li>
+
+            <a href="meetings.html">
+                📅 الاجتماعات
+            </a>
+
+        </li>
+
+
+
+
+        <li>
+
+            <a href="minutes.html">
+                📄 المحاضر
+            </a>
+
+        </li>
+
+
+
+
+        <li>
+
+            <a href="tasks.html">
+                ☑️ المهام
+            </a>
+
+        </li>
+
+
+
+
+        <li>
+
+            <a href="votes.html">
+                📊 التصويتات
+            </a>
+
+        </li>
+
+
+
+
+        <li>
+
+            <a href="decisions.html">
+                ⚖️ القرارات
+            </a>
+
+        </li>
+
+
+
+
+        <li class="active">
+
+            <a href="files.html">
+                📁 الملفات والمستندات
+            </a>
+
+        </li>
+
+
+
+
+        <li>
+
+            <a href="reports.html">
+                📈 التقارير
+            </a>
+
+        </li>
+
+
+
+    </ul>
+
+
+    <div class="sidebar-footer">
+
+        <a>
+            🚪 تسجيل الخروج
+        </a>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="main-wrapper">
+
+
+
+
+
+    <div class="topbar">
+
+
+        <div class="brand-header">
+
+            <img src="images/logo.jpg">
+            <div>
+
+                <h1>
+                    جمعية أدبي الباحة
+                </h1>
+
+
+                <p>
+                    منصة مجلس الإدارة
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+    <div class="dashboard-body">
+
+
+
+
+
+        <div class="card-header-flex">
+
+
+
+
+
+            <a id="addFileBtn"
+               href="add-file.html"
+               class="add-btn"
+               style="display:none;">
+
+
+                 رفع ملف جديد➕
+
+
+            </a>
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+        <div id="filesList">
+
+
+            <div class="meeting-box">
+
+                جاري تحميل الملفات...
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<script type="module" src="files.js"></script>
+
+
+</body>
+
+</html>

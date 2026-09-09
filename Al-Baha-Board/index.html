@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - جمعية أدبي الباحة</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* صفحة تسجيل الدخول الفخمة */
+        .login-page-body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(13, 27, 42, 0.88), rgba(27, 38, 59, 0.75)),
+            url('images/baha.webp') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* لمسات زخرفية ناعمة في الخلفية */
+        .login-page-body::before {
+            content: '';
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(197, 155, 39, 0.25) 0%, rgba(197, 155, 39, 0) 70%);
+            top: 10%;
+            right: 15%;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .login-card-glass {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 24px;
+            padding: 45px 35px;
+            width: 420px;
+            max-width: 90%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+            text-align: center;
+            z-index: 10;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-logo-container {
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .login-logo-img {
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #c59b27;
+            padding: 3px;
+            background: #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-card-glass h1 {
+            color: #ffffff;
+            font-size: 1.45rem;
+            margin: 0 0 6px 0;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .login-card-glass h2 {
+            color: #d4af5a;
+            font-size: 0.95rem;
+            margin: 0 0 30px 0;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .login-form-group {
+            position: relative;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .login-form-group input {
+            width: 100%;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 10px 16px;
+            font-size: 0.95rem;
+            color: #0d1b2a;
+            outline: none;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .login-form-group input:focus {
+            background: #ffffff;
+            border-color: #c59b27;
+            box-shadow: 0 0 12px rgba(197, 155, 39, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .login-form-group input::placeholder {
+            color: #8a99ad;
+        }
+
+        .login-submit-btn {
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(135deg, #c59b27, #a67c1e);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 18px rgba(197, 155, 39, 0.4);
+            margin-top: 10px;
+        }
+
+        .login-submit-btn:hover {
+            background: linear-gradient(135deg, #d4af5a, #b38822);
+            box-shadow: 0 8px 25px rgba(197, 155, 39, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .login-submit-btn:active {
+            transform: translateY(0);
+        }
+
+        #error {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.15);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            min-height: 20px;
+            display: none;
+        }
+
+        .login-footer-text {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.78rem;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+
+<body class="login-page-body">
+
+<div class="login-card-glass">
+
+    <!-- اللوقو -->
+    <div class="login-logo-container">
+        <img src="images/logo.jpg" onerror="this.src='images/logo.png'" alt="شعار النادي الأدبي بالباحة" class="login-logo-img">
+    </div>
+
+    <!-- العناوين -->
+    <h1>جمعية أدبي الباحة</h1>
+    <h2>منصة مجلس الإدارة</h2>
+
+    <!-- حقول الإدخال -->
+    <div class="login-form-group">
+        <input id="email" type="email" placeholder="✉ البريد الإلكتروني" required>
+    </div>
+
+    <div class="login-form-group">
+        <input id="password" type="password" placeholder="🔒 كلمة المرور" required onkeypress="if(event.key==='Enter') login()">
+    </div>
+
+    <!-- زر تسجيل الدخول -->
+    <button class="login-submit-btn" onclick="login()">تسجيل الدخول</button>
+
+    <!-- رسالة الخطأ -->
+    <p id="error"></p>
+
+    <div class="login-footer-text">
+        جميع الحقوق محفوظة © لجمعية أدبي الباحة
+
+    </div>
+    <div class="login-footer-text">
+
+        للاستفسارات وطلب الأعمال، يرجى التواصل عبر الرقم:
+         0550164982
+    </div>
+
+</div>
+
+<!-- تعديل إظهار الخطأ بسلاسة -->
+<script>
+    // إظهار رسالة الخطأ بشكل جميل عند حدوث خطأ
+    const observer = new MutationObserver(() => {
+        const err = document.getElementById('error');
+        if (err.innerText.trim() !== "") {
+            err.style.display = "block";
+        } else {
+            err.style.display = "none";
+        }
+    });
+    observer.observe(document.getElementById('error'), { childList: true });
+</script>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
